@@ -74,4 +74,8 @@ export class RecipeCategoryService{
         const category = await this.findOne(id);
         await this.recipeCategoryRepository.remove(category);
       }
+
+      async getAllCategories(): Promise<RecipeCategory[]> {
+        return this.recipeCategoryRepository.find();
+      }
 }
