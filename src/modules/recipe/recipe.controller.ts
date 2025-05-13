@@ -28,7 +28,4 @@ export class RecipeController {
     const recipeLimit = limit && +limit > 0 ? +limit : 5;
     return this.recipeService.getTopFavoriteRecipes(recipeLimit);
   }
-
-
- 
 }

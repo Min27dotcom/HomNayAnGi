@@ -39,6 +39,14 @@ export class RecipeService {
       .leftJoin('recipe.viewHistories', 'viewHistory')
       .leftJoin('recipe.likes', 'recipeLike')
       .leftJoin('recipe.favorites', 'favoriteRecipe')
+      .leftJoinAndSelect('recipe.recipeIngredients', 'recipeIngredient')
+      .leftJoinAndSelect('recipeIngredient.ingredient', 'ingredient')
+      .leftJoinAndSelect('recipe.categoryMappings', 'recipeCategoryMapping')
+      .leftJoinAndSelect('recipeCategoryMapping.recipeCategory', 'category')
+      .where('recipe.name LIKE :kw', { kw: `%${queryDto}%` })
+      .orWhere('ingredient.name LIKE :kw', { kw: `%${queryDto}%` })
+      .orWhere('category.name LIKE :kw', { kw: `%${queryDto}%` })
+      .andWhere('recipe.status = :status', { status: 'public' })
       .select([
         'recipe.id',
         'recipe.name',
@@ -49,6 +57,7 @@ export class RecipeService {
         'COUNT(DISTINCT CONCAT(recipeLike.accountId, "-", recipeLike.recipeId)) as likeCount',
         'COUNT(DISTINCT CONCAT(favoriteRecipe.accountId, "-", favoriteRecipe.recipeId)) as favoriteCount'
       ])
+      
       .groupBy('recipe.id');
 
     // Add search conditions
@@ -138,4 +147,21 @@ export class RecipeService {
 
     return { message: 'Recipe created', id: recipe.id };
   }
+
+
+async searchRecipes_(keyword: string): Promise<Recipe[]> {
+    return this.recipeRepo
+      .createQueryBuilder('recipe')
+      .leftJoinAndSelect('recipe.recipeIngredients', 'recipeIngredient')
+      .leftJoinAndSelect('recipeIngredient.ingredient', 'ingredient')
+      .leftJoinAndSelect('recipe.categoryMappings', 'recipeCategoryMapping')
+      .leftJoinAndSelect('recipeCategoryMapping.recipeCategory', 'category')
+      .where('recipe.name LIKE :kw', { kw: `%${keyword}%` })
+      .orWhere('ingredient.name LIKE :kw', { kw: `%${keyword}%` })
+      .orWhere('category.name LIKE :kw', { kw: `%${keyword}%` })
+      .andWhere('recipe.status = :status', { status: 'public' })
+      .getMany();
+  }
+
+  
 }

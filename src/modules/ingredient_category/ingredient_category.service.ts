@@ -83,4 +83,17 @@ export class IngredientCategoryService {
     const category = await this.findOne(id);
     await this.ingredientCategoryRepository.remove(category);
   }
+
+  // async getAllIngredients(): Promise<CreateIngredientCategoryDto[]> {
+  //   const ingredients = await this.ingredientCategoryRepository.find();
+
+  //   // Trả về dưới dạng CreateIngredientCategoryDto[]
+  //   return ingredients.map((ingredient) => {
+  //     const dto = new CreateIngredientCategoryDto();
+  //     dto.name = ingredient.name;
+  //     dto.imageUrl = ingredient.imageUrl || null;
+  //     return dto;
+  //   });
+  // }
+
 }

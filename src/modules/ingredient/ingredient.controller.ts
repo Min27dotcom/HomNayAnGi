@@ -1,7 +1,8 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { IngredientService } from './ingredient.service';
 import { SearchIngredientQueryDto } from './ingredient.dto';
-import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { IngredientResponseDto } from './ingredient.dto';
+import { ApiOperation, ApiQuery, ApiTags,ApiOkResponse } from '@nestjs/swagger';
 @ApiTags('Ingredients')
 @Controller('ingredients')
 export class IngredientController {
@@ -22,5 +23,11 @@ export class IngredientController {
   @ApiQuery({ name: 'limit', required: false, description: 'Số lượng nguyên liệu trả về', example: 6 })
   async getSuggestedIngredients(@Query('limit') limit?: number) {
     return this.ingredientService.getRandomIngredients(limit);
+  }
+
+  @Get()
+  @ApiOkResponse({ type: [IngredientResponseDto], description: 'Danh sách tất cả nguyên liệu' })
+  getAllIngredients(): Promise<IngredientResponseDto[]> {
+    return this.ingredientService.getAllIngredients();
   }
 }
