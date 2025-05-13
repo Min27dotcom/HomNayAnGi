@@ -44,6 +44,7 @@ const handleLogin = async () => {
       });
     }
   } catch (error) {
+    console.log(error)
     if (error.response) {
       // Lỗi từ server
       Alert.alert('Lỗi đăng nhập', error.response.data.message || 'Tên đăng nhập hoặc mật khẩu không đúng');
@@ -97,7 +98,6 @@ const handleLogin = async () => {
                   value={password}
                   onChangeText={setPassword}
                   placeholder="Mật khẩu"
-                  secureTextEntry
                   placeholderTextColor="#9CA3AF"
                 />
               </View>

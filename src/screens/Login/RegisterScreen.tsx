@@ -118,7 +118,6 @@ export const RegisterScreen = () => {
                   value={password}
                   onChangeText={setPassword}
                   placeholder="Mật khẩu"
-                  secureTextEntry
                   placeholderTextColor="#9CA3AF"
                 />
 
