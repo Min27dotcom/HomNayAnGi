@@ -4,17 +4,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const api = axios.create({
-<<<<<<< HEAD
-  baseURL:  "http://172.16.7.121:3001",
+  baseURL:  "http://192.168.0.101:3001",
   headers: {
     'Content-Type': 'application/json',
   },
-=======
-  baseURL:  "http://192.168.100.87:3001",
-  // headers: {
-  //   'Content-Type': 'application/json',
-  // },
->>>>>>> 8ee3aeb98ee260f031619bf430517c726ed9a1f6
 });
 
 // Interceptor cho request
@@ -55,7 +48,7 @@ api.interceptors.response.use(
         );
 
         const { accessToken } = response.data;
-        console.log("REFRESH TOKEN HET HAN NE      ");
+
         // Lưu access token mới vào AsyncStorage
         await AsyncStorage.setItem('accessToken', accessToken);
 

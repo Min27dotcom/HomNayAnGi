@@ -58,9 +58,9 @@ const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
 const [isLoading, setIsLoading] = useState(false);
 const [ingredients, setIngredients] = useState<Ingredient[]>([]);
 const screenWidth = Dimensions.get('window').width;
-const itemWidth = (screenWidth - 16 * 2 - 16) / 2; 
+const itemWidth = (screenWidth - 16 * 2 - 16) / 2;
 
-  
+
 
   useEffect(() => {
     if (initialIngredients.length > 0) {
@@ -171,6 +171,7 @@ const itemWidth = (screenWidth - 16 * 2 - 16) / 2;
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginTop: 8, paddingHorizontal: 16 }}>
           {ingredients?.map((item, index) => (
             <TouchableOpacity
+              key={item.id}
             onPress={() => navigation.navigate('SearchByIngredientScreen')} >
             <View key={index} style={{ alignItems: 'center', marginRight: 16 }}>
               <View style={{ width: 64, height: 64, borderRadius: 32, backgroundColor: '#ffe3e6', justifyContent: 'center', alignItems: 'center' }}>
@@ -208,8 +209,8 @@ const itemWidth = (screenWidth - 16 * 2 - 16) / 2;
         >
         {recipes.map((recipe) => (
           <TouchableOpacity
-          
-            
+
+
             key={recipe.id}
             onPress={() => navigation.navigate('RecipeDetail', { recipeId:parseInt(recipe.id) })}
             style={{
@@ -274,7 +275,7 @@ const itemWidth = (screenWidth - 16 * 2 - 16) / 2;
           <TouchableOpacity
             key={meal.id}
             onPress={() => navigation.navigate('ListDishesScreen')}
-            
+
             style={styles.card}
           >
             {meal.imageUrl && (
@@ -286,11 +287,11 @@ const itemWidth = (screenWidth - 16 * 2 - 16) / 2;
         ))}
       </View>
 
-      
+
     </View>
 
 
-    
+
       </ScrollView>
     </SafeAreaView>
     </ImageBackground>
