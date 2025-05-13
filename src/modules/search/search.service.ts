@@ -96,4 +96,24 @@ export class SearchService {
     const where = type ? { name: Like(`%${type}%`) } : {};
     return await this.recipeCategoryRepository.find({ where });
   }
+
+    async searchRecipes2({ query }: SearchRecipeQueryDto): Promise<Recipe[]> {
+      if (!query) return [];
+  
+      const keyword = `%${query}%`;
+  
+      const recipes = await this.recipeRepository
+        .createQueryBuilder('recipe')
+        .leftJoinAndSelect('recipe.recipeIngredients', 'recipeIngredient')
+        .leftJoinAndSelect('recipeIngredient.ingredient', 'ingredient')
+        .leftJoinAndSelect('recipe.categoryMappings', 'categoryMapping')
+        .leftJoinAndSelect('categoryMapping.recipeCategory', 'category')
+        .where('recipe.name LIKE :keyword', { keyword })
+        .orWhere('ingredient.name LIKE :keyword', { keyword })
+        .orWhere('category.name LIKE :keyword', { keyword })
+        .andWhere('recipe.status = :status', { status: 'public' })
+        .getMany();
+  
+      return recipes;
+    }
 }

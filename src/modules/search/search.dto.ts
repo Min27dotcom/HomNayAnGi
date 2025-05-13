@@ -1,10 +1,12 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsString, IsArray, IsNumber, IsIn } from 'class-validator';
+import {MinLength } from 'class-validator';
 
 export class SearchRecipeQueryDto {
   @ApiPropertyOptional({ description: 'Từ khóa tìm kiếm (tên món, nguyên liệu, danh mục)' })
   @IsOptional()
   @IsString()
+  @MinLength(1)
   query?: string;
 
   @ApiPropertyOptional({ description: 'ID của danh mục món ăn' })

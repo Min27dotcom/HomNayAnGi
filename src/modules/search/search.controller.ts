@@ -3,6 +3,9 @@ import { Controller, Get, Query, BadRequestException, InternalServerErrorExcepti
 import { ApiOperation, ApiQuery, ApiTags, ApiResponse } from '@nestjs/swagger';
 import { SearchService } from '../search/search.service';
 import { CloudinaryService } from "src/config/cloudinary/cloudinary.service";
+import { ApiOkResponse } from '@nestjs/swagger';
+import { Recipe } from './entities/search.entities';
+import { SearchRecipeQueryDto } from './search.dto';
 
 @ApiTags('Search')
 @Controller('search')
@@ -57,5 +60,12 @@ export class SearchController {
   @ApiResponse({ status: 200, description: 'Danh sách danh mục công thức' })
   async getRecipeCategories(@Query('type') type: string) {
     return { message: 'Lấy danh mục công thức thành công', data: await this.searchService.getRecipeCategories(type) };
+  }
+
+  @Get('recipes2')
+  @ApiQuery({ name: 'query', required: false, description: 'Từ khóa tìm kiếm' })
+  @ApiOkResponse({ type: [Recipe] })
+  search(@Query() queryDto: SearchRecipeQueryDto): Promise<Recipe[]> {
+    return this.searchService.searchRecipes2(queryDto);
   }
 }
